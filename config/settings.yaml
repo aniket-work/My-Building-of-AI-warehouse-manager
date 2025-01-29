@@ -1,0 +1,16 @@
+app:
+  title: "AI Warehouse Manager"
+  icon: "🏭"
+  layout: "wide"
+  initial_sidebar_state: "collapsed"
+
+llm:
+  model: "llama3.2:3b"
+  timeout: 120.0
+  embedding_model: "BAAI/bge-large-en-v1.5"
+
+ui:
+  supported_formats:
+    - "xlsx"
+    - "xls"
+  preview_height: 400

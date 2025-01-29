@@ -1,35 +1,40 @@
-import os
-import tempfile
-
-import pandas as pd
-import streamlit as st
 import gc
 import uuid
-from config import PAGE_CONFIG, init_models
-from prompts import QA_TEMPLATE
-from styles import CUSTOM_CSS
-from utils import process_document
+import pandas as pd
+import streamlit as st
+from utils.document_processor import process_document
+from components.header import render_header
+from components.styles import CUSTOM_STYLES
+from config.constants import (
+    SUPPORTED_FILE_TYPES,
+    PREVIEW_HEIGHT,
+    SUCCESS_MESSAGE,
+    UPLOAD_ERROR_MESSAGE,
+    NO_DOCUMENT_WARNING
+)
 
-# Initialize app
-st.set_page_config(**PAGE_CONFIG)
-st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
+# Page configuration
+st.set_page_config(
+    page_title="AI Warehouse Manager",
+    page_icon="🏭",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
+
+# Apply custom styles
+st.markdown(f"<style>{CUSTOM_STYLES}</style>", unsafe_allow_html=True)
 
 # Initialize session state
 if "id" not in st.session_state:
     st.session_state.id = uuid.uuid4()
     st.session_state.file_cache = {}
-    st.session_state.messages = []
 
-# Header
-st.markdown("""
-    <div class="enterprise-header">
-        <div class="logo-container">🏭</div>
-        <div class="header-title">AI Warehouse Manager</div>
-        <div class="header-subtitle">AI Powered Warehouse Analysis System</div>
-    </div>
-""", unsafe_allow_html=True)
+session_id = st.session_state.id
 
-# Layout
+# Render header
+render_header()
+
+# Create two columns for layout
 col1, col2 = st.columns([1, 2])
 
 with col1:
@@ -38,42 +43,54 @@ with col1:
 
     uploaded_file = st.file_uploader(
         "Upload Excel Document",
-        type=["xlsx", "xls"],
+        type=SUPPORTED_FILE_TYPES,
         help="Supported formats: .xlsx, .xls"
     )
 
     if uploaded_file:
         try:
-            with tempfile.TemporaryDirectory() as temp_dir:
-                file_path = os.path.join(temp_dir, uploaded_file.name)
-                with open(file_path, "wb") as f:
-                    f.write(uploaded_file.getvalue())
+            file_key = f"{session_id}-{uploaded_file.name}"
 
-                file_key = f"{st.session_state.id}-{uploaded_file.name}"
-
-                with st.spinner("🔄 Processing document..."):
-                    if file_key not in st.session_state.file_cache:
-                        index = process_document(temp_dir, file_path)
-                        query_engine = index.as_query_engine(streaming=True)
-                        query_engine.update_prompts(
-                            {"response_synthesizer:text_qa_template": QA_TEMPLATE}
-                        )
+            with st.spinner("🔄 Processing document..."):
+                if file_key not in st.session_state.get('file_cache', {}):
+                    query_engine = process_document(
+                        uploaded_file.getvalue(),
+                        uploaded_file.name
+                    )
+                    if query_engine:
                         st.session_state.file_cache[file_key] = query_engine
+                    else:
+                        st.error(UPLOAD_ERROR_MESSAGE)
+                        st.stop()
+                else:
+                    query_engine = st.session_state.file_cache[file_key]
 
-                st.success("✅ Document processed successfully!")
+                st.success(SUCCESS_MESSAGE)
+
+                # Display preview
                 st.markdown("### Document Preview")
                 df = pd.read_excel(uploaded_file)
-                st.dataframe(df, use_container_width=True, height=400)
+                st.dataframe(
+                    df,
+                    use_container_width=True,
+                    height=PREVIEW_HEIGHT
+                )
 
         except Exception as e:
             st.error(f"❌ Error: {str(e)}")
             st.stop()
 
+    st.markdown('</div>', unsafe_allow_html=True)
+
 with col2:
     st.markdown('<div class="content-card">', unsafe_allow_html=True)
     st.markdown("### Interactive Analysis Portal")
 
-    # Display chat messages
+    # Initialize chat
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+        st.session_state.context = None
+
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             icon_class = "user-icon" if message["role"] == "user" else "assistant-icon"
@@ -84,11 +101,12 @@ with col2:
                 </div>
             """, unsafe_allow_html=True)
 
-    # Chat input
+    # Chat input handling
     if prompt := st.chat_input("Ask a question about your document..."):
         if not uploaded_file:
-            st.warning("Please upload a document first")
+            st.warning(NO_DOCUMENT_WARNING)
         else:
+            # Add user message
             st.session_state.messages.append({"role": "user", "content": prompt})
             with st.chat_message("user"):
                 st.markdown(f"""
@@ -97,6 +115,7 @@ with col2:
                     </div>
                 """, unsafe_allow_html=True)
 
+            # Add assistant response
             with st.chat_message("assistant"):
                 message_placeholder = st.empty()
                 full_response = ""
@@ -104,13 +123,14 @@ with col2:
                 streaming_response = query_engine.query(prompt)
                 for chunk in streaming_response.response_gen:
                     full_response += chunk
+                    formatted_response = full_response.replace('\n', '<br>')
                     message_placeholder.markdown(f"""
                         <div class='assistant-icon chat-message assistant-message'>
-                            {full_response}▌
+                            {formatted_response}▌
                         </div>
                     """, unsafe_allow_html=True)
 
-# Footer
+# Footer with reset button
 col1, col2, col3 = st.columns([1, 1, 1])
 with col2:
     if st.button("🔄 Reset Conversation", type="primary"):

@@ -1,6 +1,6 @@
 # My Building of AI Warehouse Manager
 
-Practical Guide : Revolutionizing Investment Strategies with AI-Powered Stock Insights
+Warehousing Meets AI: A No-Nonsense Guide to Smarter Inventory Management
 
 TL;DR
 
@@ -9,18 +9,62 @@ WealthSense AI represents a sophisticated approach to stock market analysis by c
 Full Article : [https://medium.com/@learn-simplified/building-wealthsense-ai-the-intelligent-agent-for-advanced-stock-analysis-f50da1eef918
 
 
-
 Tech stack
+# AI Warehouse Manager Technical Stack
 
-| Category | Technologies | Purpose |
-|----------|--------------|---------|
-| Frontend Framework | Streamlit | Web interface for stock analysis application |
-| AI/ML Framework | CrewAI, LangChain, Ollama | AI agent orchestration and LLM integration |
-| Data Processing | Pandas, NumPy, SciPy | Data manipulation and statistical analysis |
-| Financial Data | yfinance | Fetching stock market data and financial information |
-| Visualization | Plotly | Interactive financial charts and data visualization |
-| Technical Analysis | TA-Lib (ta) | Technical indicators and pattern recognition |
-| Sentiment Analysis | TextBlob | Natural language processing for market sentiment |
+## Frontend Technologies
+| Technology | Purpose | Implementation Details |
+|------------|---------|------------------------|
+| Streamlit | Web Framework | Powers the interactive web interface with built-in components and state management |
+| Custom CSS | Styling | Dark theme implementation with professional color schemes and responsive design |
+| Session State | User Management | UUID-based session tracking and state persistence |
+| Wide Layout | UI/UX | Responsive design with collapsible sidebar and multi-column layout |
+
+## AI and Machine Learning
+| Technology | Purpose | Implementation Details |
+|------------|---------|------------------------|
+| Llama 3.2 (3B) | Language Model | Processes natural language queries and generates contextual responses |
+| BAAI/bge-large | Embeddings | Creates document embeddings for semantic search capabilities |
+| Vector Store Index | Search Engine | Indexes document content for efficient query processing |
+| Markdown Node Parser | Content Processing | Structures document content for AI processing |
+
+## Data Processing
+| Technology | Purpose | Implementation Details |
+|------------|---------|------------------------|
+| Pandas | Data Manipulation | Handles Excel file processing and data transformations |
+| DoclingReader | Excel Processing | Specialized reader for extracting structured data from Excel files |
+| SimpleDirectoryReader | File Management | Manages document loading and processing pipelines |
+| Garbage Collection | Memory Management | Optimizes memory usage during long-running sessions |
+
+## Configuration Management
+| Technology | Purpose | Implementation Details |
+|------------|---------|------------------------|
+| YAML | Settings Storage | Stores application configuration in human-readable format |
+| Python Constants | System Values | Defines system-wide constants and configuration values |
+| JSON | Model Settings | Manages AI model configurations and parameters |
+| Config Loader | Integration | Centralizes configuration management across the application |
+
+## Core Dependencies
+| Technology | Purpose | Implementation Details |
+|------------|---------|------------------------|
+| Asyncio | Async Operations | Enables non-blocking operations for better performance |
+| TempFile | File Handling | Manages temporary file operations during document processing |
+| NumPy | Numerical Operations | Supports data processing and mathematical operations |
+| UUID4 | Unique Identifiers | Generates unique identifiers for session and document tracking |
+
+## Development Tools
+| Technology | Purpose | Implementation Details |
+|------------|---------|------------------------|
+| Python 3.x | Core Language | Primary development language for the entire application |
+| Git | Version Control | Manages source code versioning and collaboration |
+| Virtual Environment | Dependency Management | Isolates project dependencies and ensures consistency |
+
+## Security Features
+| Technology | Purpose | Implementation Details |
+|------------|---------|------------------------|
+| Session Management | User Isolation | Ensures user data and queries remain isolated |
+| File Validation | Upload Security | Validates file types and content before processing |
+| Memory Cleanup | Resource Management | Automatically cleans up temporary files and resources |
 
 
 
@@ -57,13 +101,13 @@ Competitive Advantage:
 
 ## Architecture
 
-### Lets Build Trading Terminal Using AI Agents
+### My Building of AI Warehouse Manager
 
 
 ![Design Diagram](design_docs/design.jpg)
 
 
-# Tutorial: Lets Build Trading Terminal Using AI Agents
+# Tutorial: My Building of AI Warehouse Manager
 
 ## Prerequisites
 - Python installed on your system.
@@ -93,7 +137,7 @@ Competitive Advantage:
 
 **Install Project Dependencies:**
 
-Follow these steps to set up and run the  "Lets Build Trading Terminal Using AI Agents"
+Follow these steps to set up and run the  "My Building of AI Warehouse Manager"
 
 1. Navigate to your project directory:
    ```
@@ -108,7 +152,7 @@ Follow these steps to set up and run the  "Lets Build Trading Terminal Using AI 
    This command installs all the necessary Python packages listed in the requirements.txt file.
 
 
-## Run - Hands-On Guide: Lets Build Trading Terminal Using AI Agents
+## Run - Hands-On Guide: My Building of AI Warehouse Manager
 
    ```bash 
      
@@ -116,6 +160,3 @@ Follow these steps to set up and run the  "Lets Build Trading Terminal Using AI 
       streamlit run app.py
       
    ```
-
-
-   

@@ -1,4 +1,4 @@
-CUSTOM_CSS = """
+CUSTOM_STYLES = """
     /* Hide message action icons */
     .stChatMessage [data-testid="StChatMessageActions"] {
         display: none !important;
@@ -15,7 +15,7 @@ CUSTOM_CSS = """
         color: #E0E0E0;
     }
 
-    /* Enterprise Header */
+    /* Large Enterprise Header */
     .enterprise-header {
         text-align: center;
         padding: 4rem 0;
