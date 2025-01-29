@@ -1,0 +1,14 @@
+page_styles:
+  main_background: "#1E1E1E"
+  main_text: "#E0E0E0"
+  enterprise_header_bg: "#1a237e"
+  user_message_bg: "#2C3E50"
+  user_message_border: "#3498DB"
+  assistant_message_bg: "#2D2D2D"
+  assistant_message_border: "#2ECC71"
+
+document_processing:
+  allowed_extensions:
+    - xlsx
+    - xls
+  preview_height: 400

@@ -1,0 +1,18 @@
+{
+    "page_config": {
+        "page_title": "AI Warehouse Manager",
+        "page_icon": "🏭",
+        "layout": "wide",
+        "initial_sidebar_state": "collapsed"
+    },
+    "models": {
+        "llm": {
+            "name": "llama3.2:3b",
+            "request_timeout": 120.0
+        },
+        "embedding": {
+            "model_name": "BAAI/bge-large-en-v1.5",
+            "trust_remote_code": true
+        }
+    }
+}
