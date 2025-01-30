@@ -75,7 +75,7 @@ In today’s fast-paced business environment, the difference between success and
 - Help predict inventory needs before shortages occur
 - Reduce the time spent training new staff on complex systems
 - Enable faster, more accurate decision-making
-- 
+
 Even though our example uses a fictional warehouse, the principles and implementation details apply to real-world businesses of any size looking to modernize their operations.
 
 ## Architecture
